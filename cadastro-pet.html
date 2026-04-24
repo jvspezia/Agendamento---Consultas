@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="claro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PetConsulta — Cadastro do Pet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-dark fixed-top">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="bi bi-heart-pulse-fill me-2"></i>PetConsulta
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav mt-2">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+          <li class="nav-item"><a class="nav-link active" href="cadastro-dono.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendar.html">Agendar</a></li>
+          <li class="nav-item"><a class="nav-link" href="painel.html">Minhas Consultas</a></li>
+        </ul>
+      </div>
+      <button id="btnTema" onclick="alternarTema()" class="btn-tema ms-2">🌙</button>
+    </div>
+  </nav>
+
+  <!-- CONTEÚDO -->
+  <div class="page-content">
+    <div style="max-width: 480px; margin: 0 auto;">
+
+      <!-- Título -->
+      <p class="page-title"><i class="bi bi-emoji-smile me-2 text-primary"></i>Cadastro do Pet</p>
+      <p class="page-subtitle">Agora nos conte sobre seu companheiro!</p>
+
+      <!-- Barra de etapas -->
+      <div class="steps-bar mb-4">
+        <div class="step-dot active" style="background-color: var(--primary); color: white; opacity:0.5;">1</div>
+        <div class="step-line" style="background-color: var(--primary); opacity:0.5;"></div>
+        <div class="step-dot active">2</div>
+        <div class="step-line"></div>
+        <div class="step-dot">3</div>
+      </div>
+
+      <!-- Foto do pet -->
+      <div class="form-card text-center">
+        <h5 class="fw-bold mb-3">
+          <i class="bi bi-camera-fill me-2 text-primary"></i>Foto do Pet
+        </h5>
+        <div class="foto-upload-area" onclick="document.getElementById('fotoPet').click()">
+          <img id="previewFoto" src="" class="pet-foto-preview d-none" alt="Foto do pet" />
+          <div id="fotoPlaceholder">
+            <i class="bi bi-camera" style="font-size: 2.5rem; color: var(--text-muted);"></i>
+            <p class="mt-2 mb-0" style="color: var(--text-muted); font-size: 0.9rem;">Toque para adicionar uma foto</p>
+          </div>
+        </div>
+        <input type="file" id="fotoPet" accept="image/*" class="d-none" />
+        <p class="mt-2 mb-0" style="color: var(--text-muted); font-size: 0.8rem;">Opcional — JPG, PNG ou WEBP</p>
+      </div>
+
+      <!-- Identificação -->
+      <div class="form-card">
+        <h5 class="fw-bold mb-3">
+          <i class="bi bi-tag-fill me-2 text-primary"></i>Identificação
+        </h5>
+
+        <div class="mb-3">
+          <label class="form-label" for="nomePet">Nome do pet *</label>
+          <input type="text" class="form-control" id="nomePet" placeholder="Como seu pet se chama?" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="especie">Espécie *</label>
+          <select class="form-select" id="especie">
+            <option value="">Selecione a espécie</option>
+            <option value="cao">🐶 Cão</option>
+            <option value="gato">🐱 Gato</option>
+            <option value="passaro">🐦 Pássaro</option>
+            <option value="roedor">🐹 Roedor</option>
+            <option value="reptil">🦎 Réptil</option>
+            <option value="outro">🐾 Outro</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="raca">Raça</label>
+          <input type="text" class="form-control" id="raca" placeholder="Ex: Labrador, SRD, Persa..." />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Sexo *</label>
+          <div class="d-flex gap-3">
+            <div class="sexo-option" id="opt-macho" onclick="selecionarSexo('macho')">
+              <i class="bi bi-gender-male"></i> Macho
+            </div>
+            <div class="sexo-option" id="opt-femea" onclick="selecionarSexo('femea')">
+              <i class="bi bi-gender-female"></i> Fêmea
+            </div>
+          </div>
+          <input type="hidden" id="sexoPet" value="" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="nascimentoPet">Data de nascimento / Idade aproximada *</label>
+          <input type="date" class="form-control" id="nascimentoPet" />
+          <div class="form-text">Se não souber a data exata, escolha uma data aproximada.</div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label class="form-label" for="cor">Cor / Pelagem</label>
+            <input type="text" class="form-control" id="cor" placeholder="Ex: caramelo, branco..." />
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label" for="peso">Peso aprox. (kg)</label>
+            <input type="number" class="form-control" id="peso" placeholder="Ex: 5.5" step="0.1" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Saúde -->
+      <div class="form-card">
+        <h5 class="fw-bold mb-3">
+          <i class="bi bi-heart-pulse-fill me-2 text-primary"></i>Saúde
+        </h5>
+
+        <div class="mb-3">
+          <label class="form-label">Castrado(a)? *</label>
+          <div class="d-flex gap-3">
+            <div class="radio-option" id="opt-castrado-sim" onclick="selecionarOpcao('castrado', 'sim', this)">
+              <i class="bi bi-check-circle me-1"></i>Sim
+            </div>
+            <div class="radio-option" id="opt-castrado-nao" onclick="selecionarOpcao('castrado', 'nao', this)">
+              <i class="bi bi-x-circle me-1"></i>Não
+            </div>
+          </div>
+          <input type="hidden" id="castrado" value="" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Vacinas em dia? *</label>
+          <div class="d-flex gap-3">
+            <div class="radio-option" id="opt-vacinas-sim" onclick="selecionarOpcao('vacinas', 'sim', this)">
+              <i class="bi bi-check-circle me-1"></i>Sim
+            </div>
+            <div class="radio-option" id="opt-vacinas-nao" onclick="selecionarOpcao('vacinas', 'nao', this)">
+              <i class="bi bi-x-circle me-1"></i>Não
+            </div>
+          </div>
+          <input type="hidden" id="vacinas" value="" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="observacoes">Observações de saúde</label>
+          <textarea class="form-control" id="observacoes" rows="3"
+            placeholder="Alergias, condições especiais, medicamentos em uso..."></textarea>
+        </div>
+      </div>
+
+      <!-- Alerta de erro -->
+      <div id="alertaErro" class="alert alert-danger d-none" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span id="mensagemErro"></span>
+      </div>
+
+      <!-- Botão salvar -->
+      <button class="btn-primary-blue" onclick="salvarPet()">
+        <i class="bi bi-calendar-check-fill me-2"></i>Continuar — Agendar Consulta
+      </button>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

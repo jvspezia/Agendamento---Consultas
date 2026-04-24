@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ConsultaFácil</title>
+  <title>PetConsulta — Agendamento Veterinário</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
@@ -12,67 +12,133 @@
 
   <!-- NAVBAR -->
   <nav class="navbar navbar-dark fixed-top">
-    <div class="container-fluid px-3">
-      <a class="navbar-brand fw-bold" href="index.html">
-        <i class="bi bi-calendar2-heart-fill me-2"></i>ConsultaFácil
+    <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+        <i class="bi bi-heart-pulse-fill me-2"></i>PetConsulta
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn-tema" id="btnTema" onclick="alternarTema()">🌙</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
       <div class="collapse navbar-collapse" id="menu">
-        <ul class="navbar-nav mt-2">
-          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-          <li class="nav-item"><a class="nav-link" href="agendar.html">Agendar</a></li>
-          <li class="nav-item"><a class="nav-link" href="painel.html">Minhas Consultas</a></li>
+        <ul class="navbar-nav mt-2 pb-2">
+          <li class="nav-item"><a class="nav-link active" href="index.html"><i class="bi bi-house me-2"></i>Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro-dono.html"><i class="bi bi-person-plus me-2"></i>Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendar.html"><i class="bi bi-calendar-plus me-2"></i>Agendar</a></li>
+          <li class="nav-item"><a class="nav-link" href="painel.html"><i class="bi bi-list-check me-2"></i>Minhas Consultas</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="hero d-flex flex-column justify-content-center align-items-center text-center px-3">
+  <section class="hero">
     <div class="hero-content">
+      <div class="hero-badge">🐾 Cuidado veterinário simplificado</div>
       <i class="bi bi-heart-pulse-fill hero-icon"></i>
-      <h1 class="fw-bold mt-3">Sua saúde em primeiro lugar</h1>
-      <p class="mt-2">Agende suas consultas de forma rápida, fácil e sem sair de casa.</p>
-      <a href="agendar.html" class="btn btn-primary btn-lg mt-3 w-100">
+      <h1 class="fw-bold mt-3">Seu pet merece o melhor cuidado</h1>
+      <p class="mt-2">Agende consultas veterinárias de forma rápida, fácil e sem sair de casa.</p>
+      <a href="cadastro-dono.html" class="btn btn-hero-primary mt-4 w-100">
         <i class="bi bi-calendar-plus me-2"></i>Agendar Consulta
       </a>
-      <a href="painel.html" class="btn btn-outline-light btn-lg mt-2 w-100">
+      <a href="painel.html" class="btn btn-hero-outline mt-2 w-100">
         <i class="bi bi-list-check me-2"></i>Ver Minhas Consultas
       </a>
     </div>
   </section>
 
+  <!-- SERVIÇOS -->
+  <section class="section-info">
+    <h2 class="section-title">Nossos Serviços</h2>
+    <p class="section-desc">Cuidado completo para o seu melhor amigo</p>
+    <div class="servicos-grid">
+      <div class="servico-card">
+        <i class="bi bi-clipboard2-pulse"></i>
+        <span>Consulta Geral</span>
+      </div>
+      <div class="servico-card">
+        <i class="bi bi-scissors"></i>
+        <span>Banho e Tosa</span>
+      </div>
+      <div class="servico-card">
+        <i class="bi bi-capsule"></i>
+        <span>Vacinação</span>
+      </div>
+      <div class="servico-card">
+        <i class="bi bi-lungs"></i>
+        <span>Cirurgia</span>
+      </div>
+      <div class="servico-card">
+        <i class="bi bi-eyeglasses"></i>
+        <span>Oftalmologia</span>
+      </div>
+      <div class="servico-card">
+        <i class="bi bi-activity"></i>
+        <span>Exames</span>
+      </div>
+    </div>
+  </section>
+
   <!-- COMO FUNCIONA -->
-  <section class="section-info px-3 py-5">
-    <h2 class="text-center fw-bold mb-4">Como funciona?</h2>
+  <section class="section-steps">
+    <h2 class="section-title">Como funciona?</h2>
+    <p class="section-desc">Em apenas 3 passos simples</p>
+
     <div class="step-card">
       <div class="step-number">1</div>
       <div>
-        <strong>Escolha a especialidade</strong>
-        <p class="mb-0 text-muted">Clínico geral, pediatria, cardiologia e mais.</p>
+        <strong>Cadastre você e seu pet</strong>
+        <p class="mb-0" style="color:var(--text-muted); font-size:0.9rem">Informe seus dados e as informações do seu animal.</p>
       </div>
     </div>
     <div class="step-card">
       <div class="step-number">2</div>
       <div>
-        <strong>Selecione data e horário</strong>
-        <p class="mb-0 text-muted">Veja os horários disponíveis e escolha o melhor pra você.</p>
+        <strong>Escolha data e horário</strong>
+        <p class="mb-0" style="color:var(--text-muted); font-size:0.9rem">Veja os horários disponíveis e selecione o melhor pra você.</p>
       </div>
     </div>
     <div class="step-card">
       <div class="step-number">3</div>
       <div>
-        <strong>Confirme o agendamento</strong>
-        <p class="mb-0 text-muted">Receba a confirmação e apareça na consulta!</p>
+        <strong>Confirme e apareça!</strong>
+        <p class="mb-0" style="color:var(--text-muted); font-size:0.9rem">Receba a confirmação e leve seu pet na hora marcada.</p>
       </div>
     </div>
   </section>
 
+  <!-- ANIMAIS ACEITOS -->
+  <section class="section-pets">
+    <h2 class="section-title">Atendemos</h2>
+    <p class="section-desc">Todos os seus companheiros são bem-vindos</p>
+    <div class="pets-row">
+      <div class="pet-pill">🐶 Cães</div>
+      <div class="pet-pill">🐱 Gatos</div>
+      <div class="pet-pill">🐦 Pássaros</div>
+      <div class="pet-pill">🐹 Roedores</div>
+      <div class="pet-pill">🦎 Répteis</div>
+      <div class="pet-pill">🐠 Peixes</div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="section-cta">
+    <i class="bi bi-calendar2-heart-fill cta-icon"></i>
+    <h3 class="fw-bold mt-3">Pronto para agendar?</h3>
+    <p>Seu pet agradece o cuidado.</p>
+    <a href="cadastro-dono.html"  class="btn btn-hero-primary mt-3 w-100" style="max-width:320px">
+      <i class="bi bi-arrow-right-circle me-2"></i>Começar agora
+    </a>
+  </section>
+
   <!-- FOOTER -->
-  <footer class="text-center py-4">
-    <p class="mb-0 text-muted">© 2025 ConsultaFácil — Todos os direitos reservados</p>
+  <footer>
+    <i class="bi bi-heart-pulse-fill text-primary me-1"></i>
+    <strong>PetConsulta</strong>
+    <p class="mb-0 mt-1" style="font-size:0.85rem">© 2025 — Todos os direitos reservados</p>
+    <p style="font-size:0.8rem; color:var(--text-muted)">Feito com ❤️ para quem ama seus pets</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
