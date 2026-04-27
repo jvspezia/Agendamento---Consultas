@@ -118,6 +118,13 @@ function selecionarHorario(el, hora) {
   el.classList.add('selecionado');
   horarioSelecionado = hora;
 }
+// ===== SELEÇÃO DE MOTIVO =====
+function selecionarMotivo(el, texto) {
+  document.querySelectorAll('.motivo-chip').forEach(function(c) { c.classList.remove('selecionado'); });
+  el.classList.add('selecionado');
+  var motivoEl = document.getElementById('motivo');
+  if (motivoEl) motivoEl.value = texto;
+}
 
 // ===== BUSCA CEP =====
 function buscarCep() {
