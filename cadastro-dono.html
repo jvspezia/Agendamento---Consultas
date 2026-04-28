@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="claro">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,36 +10,21 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar navbar-dark fixed-top">
-    <div class="container-fluid px-3">
-      <a class="navbar-brand fw-bold" href="index.html">
+    <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
         <i class="bi bi-heart-pulse-fill me-2"></i>PetConsulta
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="menu">
-        <ul class="navbar-nav mt-2">
-          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-          <li class="nav-item"><a class="nav-link active" href="cadastro-dono.html">Cadastro</a></li>
-          <li class="nav-item"><a class="nav-link" href="agendar.html">Agendar</a></li>
-          <li class="nav-item"><a class="nav-link" href="painel.html">Minhas Consultas</a></li>
-        </ul>
-      </div>
-      <button id="btnTema" onclick="alternarTema()" class="btn-tema ms-2">🌙</button>
+      <button class="btn-tema" id="btnTema" onclick="alternarTema()">🌙</button>
     </div>
   </nav>
 
-  <!-- CONTEÚDO -->
   <div class="page-content">
-    <div style="max-width: 480px; margin: 0 auto;">
+    <div style="max-width:480px; margin:0 auto;">
 
-      <!-- Título -->
       <p class="page-title"><i class="bi bi-person-circle me-2 text-primary"></i>Cadastro do Tutor</p>
       <p class="page-subtitle">Preencha seus dados para continuar o agendamento.</p>
 
-      <!-- Barra de etapas -->
       <div class="steps-bar mb-4">
         <div class="step-dot active">1</div>
         <div class="step-line"></div>
@@ -48,72 +33,60 @@
         <div class="step-dot">3</div>
       </div>
 
-      <!-- Dados pessoais -->
       <div class="form-card">
-        <h5 class="fw-bold mb-3">
-          <i class="bi bi-person-fill me-2 text-primary"></i>Dados Pessoais
-        </h5>
+        <h5 class="fw-bold mb-3"><i class="bi bi-person-fill me-2 text-primary"></i>Dados Pessoais</h5>
 
         <div class="mb-3">
-          <label class="form-label" for="nome">Nome completo *</label>
-          <input type="text" class="form-control" id="nome" placeholder="Seu nome completo" />
+          <label class="form-label">Nome completo *</label>
+          <input type="text" class="form-control" id="nome" placeholder="Seu nome completo"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="cpf">CPF *</label>
-          <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" maxlength="14" />
+          <label class="form-label">CPF *</label>
+          <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" maxlength="14"
+            oninput="formatarCPF(this)"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="nascimento">Data de nascimento *</label>
-          <input type="date" class="form-control" id="nascimento" />
+          <label class="form-label">Data de nascimento *</label>
+          <input type="date" class="form-control" id="nascimento"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="telefone">Telefone (WhatsApp) *</label>
-          <input type="tel" class="form-control" id="telefone" placeholder="(47) 99999-9999" maxlength="15" />
+          <label class="form-label">Telefone (WhatsApp) *</label>
+          <input type="tel" class="form-control" id="telefone" placeholder="(47) 99999-9999" maxlength="15"
+            oninput="formatarTelefone(this)"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="email">E-mail *</label>
-          <input type="email" class="form-control" id="email" placeholder="seu@email.com" />
+          <label class="form-label">E-mail *</label>
+          <input type="email" class="form-control" id="email" placeholder="seu@email.com"/>
         </div>
       </div>
 
-      <!-- Endereço -->
       <div class="form-card">
-        <h5 class="fw-bold mb-3">
-          <i class="bi bi-geo-alt-fill me-2 text-primary"></i>Endereço
-        </h5>
+        <h5 class="fw-bold mb-3"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Endereço</h5>
 
         <div class="mb-3">
-          <label class="form-label" for="cep">CEP *</label>
+          <label class="form-label">CEP *</label>
           <div class="input-group">
-            <input type="text" class="form-control" id="cep" placeholder="00000-000" maxlength="9" />
-            <button class="btn btn-outline-secondary" type="button" onclick="buscarCep()">
+            <input type="text" class="form-control" id="cep" placeholder="00000-000" maxlength="9"
+              oninput="formatarCEP(this)"/>
+            <button class="btn btn-outline-secondary" type="button" onclick="buscarCEP()">
               <i class="bi bi-search"></i>
             </button>
           </div>
-          <div id="cepStatus" class="form-text text-muted"></div>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="endereco">Endereço completo *</label>
-          <input type="text" class="form-control" id="endereco" placeholder="Rua, número, complemento" />
+          <label class="form-label">Endereço completo *</label>
+          <input type="text" class="form-control" id="endereco" placeholder="Rua, número, complemento"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="bairro">Bairro *</label>
-          <input type="text" class="form-control" id="bairro" placeholder="Seu bairro" />
+          <label class="form-label">Bairro *</label>
+          <input type="text" class="form-control" id="bairro" placeholder="Seu bairro"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="cidade">Cidade *</label>
-          <input type="text" class="form-control" id="cidade" placeholder="Sua cidade" />
+          <label class="form-label">Cidade *</label>
+          <input type="text" class="form-control" id="cidade" placeholder="Sua cidade"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="comoConheceu">Como conheceu a clínica?</label>
+          <label class="form-label">Como conheceu a clínica?</label>
           <select class="form-select" id="comoConheceu">
             <option value="">Selecione uma opção</option>
             <option value="indicacao">Indicação de amigo/familiar</option>
@@ -126,13 +99,11 @@
         </div>
       </div>
 
-      <!-- Alerta de erro -->
       <div id="alertaErro" class="alert alert-danger d-none" role="alert">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         <span id="mensagemErro"></span>
       </div>
 
-      <!-- Botão salvar -->
       <button class="btn-primary-blue" onclick="salvarDono()">
         <i class="bi bi-arrow-right-circle-fill me-2"></i>Continuar — Cadastrar Pet
       </button>
@@ -140,6 +111,22 @@
     </div>
   </div>
 
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="bi bi-house-fill"></i><span>Início</span>
+    </a>
+    <a href="cadastro-dono.html" class="bottom-nav-item active">
+      <i class="bi bi-person-plus-fill"></i><span>Cadastro</span>
+    </a>
+    <a href="agendar.html" class="bottom-nav-item">
+      <i class="bi bi-calendar-plus-fill"></i><span>Agendar</span>
+    </a>
+    <a href="painel.html" class="bottom-nav-item">
+      <i class="bi bi-list-check"></i><span>Consultas</span>
+    </a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/app.js"></script>
 </body>

@@ -17,9 +17,7 @@ function alternarTema() {
 function iniciarSplash() {
   const splash = document.getElementById('splash');
   if (!splash) return;
-
   gerarPatas('patasContainer');
-
   setTimeout(function () {
     splash.classList.add('hide');
     setTimeout(function () {
@@ -33,11 +31,10 @@ function iniciarSplash() {
 function gerarPatas(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
-  const emojis = ['🐾', '🐾', '🐾', '🐾', '🐾'];
   for (let i = 0; i < 10; i++) {
     const pata = document.createElement('div');
     pata.classList.add('pata-float');
-    pata.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    pata.innerText = '🐾';
     pata.style.left = Math.random() * 100 + '%';
     pata.style.animationDuration = (6 + Math.random() * 8) + 's';
     pata.style.animationDelay = (Math.random() * 6) + 's';
@@ -51,16 +48,13 @@ function ativarFadeIns() {
   const elementos = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.1 });
-
   elementos.forEach(function (el) { observer.observe(el); });
 }
 
-// ===== FORMATAÇÃO DE CPF =====
+// ===== FORMATAÇÕES =====
 function formatarCPF(input) {
   let v = input.value.replace(/\D/g, '').slice(0, 11);
   v = v.replace(/(\d{3})(\d)/, '$1.$2');
@@ -69,7 +63,6 @@ function formatarCPF(input) {
   input.value = v;
 }
 
-// ===== FORMATAÇÃO DE TELEFONE =====
 function formatarTelefone(input) {
   let v = input.value.replace(/\D/g, '').slice(0, 11);
   v = v.replace(/(\d{2})(\d)/, '($1) $2');
@@ -77,7 +70,6 @@ function formatarTelefone(input) {
   input.value = v;
 }
 
-// ===== FORMATAÇÃO DE CEP =====
 function formatarCEP(input) {
   let v = input.value.replace(/\D/g, '').slice(0, 8);
   v = v.replace(/(\d{5})(\d)/, '$1-$2');
@@ -89,7 +81,6 @@ async function buscarCEP() {
   const cepInput = document.getElementById('cep');
   const cep = cepInput.value.replace(/\D/g, '');
   if (cep.length !== 8) return;
-
   try {
     const res = await fetch('https://viacep.com.br/ws/' + cep + '/json/');
     const data = await res.json();
@@ -104,7 +95,7 @@ async function buscarCEP() {
 
 // ===== SALVAR DONO =====
 function salvarDono() {
-  const campos = ['nome', 'cpf', 'nascimento', 'telefone', 'email', 'cep', 'endereco', 'bairro', 'cidade', 'comoConheceu'];
+  const campos = ['nome', 'cpf', 'nascimento', 'telefone', 'email', 'cep', 'endereco', 'bairro', 'cidade'];
   for (let campo of campos) {
     const el = document.getElementById(campo);
     if (!el || !el.value.trim()) {
@@ -124,19 +115,19 @@ function salvarDono() {
     endereco: document.getElementById('endereco').value.trim(),
     bairro: document.getElementById('bairro').value.trim(),
     cidade: document.getElementById('cidade').value.trim(),
-    comoConheceu: document.getElementById('comoConheceu').value
+    comoConheceu: document.getElementById('comoConheceu') ? document.getElementById('comoConheceu').value : ''
   };
 
   localStorage.setItem('dadosDono', JSON.stringify(dono));
   window.location.href = 'cadastro-pet.html';
 }
 
-// ===== SELEÇÃO DE OPÇÕES (sexo, castrado, vacinas) =====
-function selecionarOpcao(grupo, valor) {
-  document.querySelectorAll('[data-grupo="' + grupo + '"]').forEach(function (el) {
-    el.classList.remove('selecionado');
+// ===== SELEÇÃO DE OPÇÕES =====
+function selecionarOpcao(grupo, valor, el) {
+  document.querySelectorAll('[data-grupo="' + grupo + '"]').forEach(function (btn) {
+    btn.classList.remove('selecionado');
   });
-  document.querySelector('[data-grupo="' + grupo + '"][data-valor="' + valor + '"]').classList.add('selecionado');
+  if (el) el.classList.add('selecionado');
   const input = document.getElementById('input_' + grupo);
   if (input) input.value = valor;
 }
@@ -145,6 +136,7 @@ function selecionarOpcao(grupo, valor) {
 function previewFoto() {
   const input = document.getElementById('fotoPet');
   const preview = document.getElementById('previewFoto');
+  const placeholder = document.getElementById('fotoPlaceholder');
   const area = document.getElementById('uploadArea');
   if (!input.files || !input.files[0]) return;
 
@@ -155,6 +147,7 @@ function previewFoto() {
       preview.src = e.target.result;
       preview.classList.remove('d-none');
     }
+    if (placeholder) placeholder.classList.add('d-none');
     if (area) area.style.borderColor = 'var(--primary)';
   };
   reader.readAsDataURL(input.files[0]);
@@ -201,10 +194,8 @@ function salvarPet() {
 function carregarResumo() {
   const dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
   const pet = JSON.parse(localStorage.getItem('dadosPet') || 'null');
-
   const resumoDono = document.getElementById('resumoDono');
   const resumoPet = document.getElementById('resumoPet');
-
   if (resumoDono) resumoDono.textContent = dono ? dono.nome : 'Tutor não cadastrado';
   if (resumoPet) resumoPet.textContent = pet ? pet.nome + ' (' + pet.especie + ')' : 'Pet não cadastrado';
 }
@@ -216,18 +207,14 @@ const todosHorarios = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16
 function renderizarHorarios(dataSelecionada) {
   const grid = document.getElementById('horariosGrid');
   if (!grid) return;
-
   const consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
   const ocupados = consultas.filter(function (c) { return c.data === dataSelecionada; }).map(function (c) { return c.horario; });
-
   horarioSelecionado = '';
   grid.innerHTML = '';
-
   todosHorarios.forEach(function (hora) {
     const div = document.createElement('div');
     div.classList.add('horario-card');
     div.textContent = hora;
-
     if (ocupados.includes(hora)) {
       div.classList.add('ocupado');
       div.title = 'Horário ocupado';
@@ -235,7 +222,6 @@ function renderizarHorarios(dataSelecionada) {
       div.classList.add('disponivel');
       div.onclick = function () { selecionarHorario(div, hora); };
     }
-
     grid.appendChild(div);
   });
 }
@@ -254,8 +240,28 @@ function selecionarMotivo(el, texto) {
   if (motivoEl) motivoEl.value = texto;
 }
 
+// ===== ENVIAR EMAIL =====
+async function enviarEmail(consulta, dono, pet) {
+  try {
+    const templateParams = {
+      nome_dono: dono.nome,
+      email_dono: dono.email,
+      nome_pet: pet.nome,
+      especie_pet: pet.especie,
+      data_consulta: formatarData(consulta.data),
+      horario_consulta: consulta.horario,
+      motivo_consulta: consulta.motivo
+    };
+
+    await emailjs.send('Petconsulta', 'template_ynetch9', templateParams);
+    console.log('Email enviado com sucesso!');
+  } catch (error) {
+    console.log('Erro ao enviar email:', error);
+  }
+}
+
 // ===== CONFIRMAR AGENDAMENTO =====
-function confirmarAgendamento() {
+async function confirmarAgendamento() {
   const dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
   const pet = JSON.parse(localStorage.getItem('dadosPet') || 'null');
   const dataConsulta = document.getElementById('dataConsulta') ? document.getElementById('dataConsulta').value : '';
@@ -277,10 +283,15 @@ function confirmarAgendamento() {
 
   if (erro) erro.classList.add('d-none');
 
+  // Mostra loading no botão
+  const btn = document.querySelector('[onclick="confirmarAgendamento()"]');
+  if (btn) { btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Enviando...'; btn.disabled = true; }
+
   const consulta = {
     id: Date.now(),
     nomeDono: dono.nome,
     telefoneDono: dono.telefone,
+    emailDono: dono.email,
     nomePet: pet.nome,
     especiePet: pet.especie,
     racaPet: pet.raca,
@@ -295,23 +306,20 @@ function confirmarAgendamento() {
   localStorage.setItem('consultas', JSON.stringify(consultas));
   localStorage.setItem('ultimaConsulta', JSON.stringify(consulta));
 
+  // Envia o email
+  await enviarEmail(consulta, dono, pet);
+
   window.location.href = 'confirmacao.html';
 }
 
 // ===== CARREGAR CONFIRMAÇÃO =====
 function carregarConfirmacao() {
-  const div = document.getElementById('dadosConfirmacao');
-  if (!div) return;
-
   const c = JSON.parse(localStorage.getItem('ultimaConsulta') || 'null');
   if (!c) { window.location.href = 'index.html'; return; }
 
   const foto = localStorage.getItem('fotoPet');
   const fotoEl = document.getElementById('conf-foto');
-  if (fotoEl && foto) {
-    fotoEl.src = foto;
-    fotoEl.classList.remove('d-none');
-  }
+  if (fotoEl && foto) { fotoEl.src = foto; fotoEl.classList.remove('d-none'); }
 
   const campos = {
     'conf-nomeDono': c.nomeDono,
@@ -357,10 +365,8 @@ function carregarConsultas() {
       '</div>' +
       '<div class="d-flex align-items-center gap-3 mt-3">' +
         fotoHTML +
-        '<div>' +
-          '<h5 class="fw-bold mb-0">' + c.nomePet + '</h5>' +
-          '<small style="color:var(--text-muted)">' + c.nomeDono + '</small>' +
-        '</div>' +
+        '<div><h5 class="fw-bold mb-0">' + c.nomePet + '</h5>' +
+        '<small style="color:var(--text-muted)">' + c.nomeDono + '</small></div>' +
       '</div>' +
       '<hr style="border-color:var(--border)">' +
       '<p class="mb-1"><i class="bi bi-calendar3 me-2 text-primary"></i>' + formatarData(c.data) + ' às ' + c.horario + '</p>' +
@@ -368,8 +374,7 @@ function carregarConsultas() {
       '<p class="mb-3"><i class="bi bi-telephone me-2 text-primary"></i>' + c.telefoneDono + '</p>' +
       '<button class="btn-cancelar" onclick="cancelarConsulta(' + c.id + ')">' +
         '<i class="bi bi-x-circle me-2"></i>Cancelar Consulta' +
-      '</button>' +
-    '</div>';
+      '</button></div>';
   }).join('');
 
   ativarFadeIns();
@@ -392,6 +397,9 @@ function formatarData(data) {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', function () {
+  // Inicializa EmailJS
+  emailjs.init('Rzyh4-PwNLHtD1fd2');
+
   aplicarTema();
   iniciarSplash();
   gerarPatas('patasHero');
@@ -401,14 +409,9 @@ document.addEventListener('DOMContentLoaded', function () {
   carregarConsultas();
   carregarConfirmacao();
 
-  // Listener para data de consulta
   const dataInput = document.getElementById('dataConsulta');
   if (dataInput) {
-    dataInput.addEventListener('change', function () {
-      renderizarHorarios(this.value);
-    });
-    // Data mínima = hoje
-    const hoje = new Date().toISOString().split('T')[0];
-    dataInput.min = hoje;
+    dataInput.addEventListener('change', function () { renderizarHorarios(this.value); });
+    dataInput.min = new Date().toISOString().split('T')[0];
   }
 });

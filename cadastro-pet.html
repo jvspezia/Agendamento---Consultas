@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="claro">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,173 +10,170 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar navbar-dark fixed-top">
-    <div class="container-fluid px-3">
-      <a class="navbar-brand fw-bold" href="index.html">
+    <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
         <i class="bi bi-heart-pulse-fill me-2"></i>PetConsulta
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="menu">
-        <ul class="navbar-nav mt-2">
-          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-          <li class="nav-item"><a class="nav-link active" href="cadastro-dono.html">Cadastro</a></li>
-          <li class="nav-item"><a class="nav-link" href="agendar.html">Agendar</a></li>
-          <li class="nav-item"><a class="nav-link" href="painel.html">Minhas Consultas</a></li>
-        </ul>
-      </div>
-      <button id="btnTema" onclick="alternarTema()" class="btn-tema ms-2">🌙</button>
+      <button class="btn-tema" id="btnTema" onclick="alternarTema()">🌙</button>
     </div>
   </nav>
 
-  <!-- CONTEÚDO -->
   <div class="page-content">
-    <div style="max-width: 480px; margin: 0 auto;">
+    <div style="max-width:480px; margin:0 auto;">
 
-      <!-- Título -->
       <p class="page-title"><i class="bi bi-emoji-smile me-2 text-primary"></i>Cadastro do Pet</p>
       <p class="page-subtitle">Agora nos conte sobre seu companheiro!</p>
 
-      <!-- Barra de etapas -->
       <div class="steps-bar mb-4">
-        <div class="step-dot active" style="background-color: var(--primary); color: white; opacity:0.5;">1</div>
-        <div class="step-line" style="background-color: var(--primary); opacity:0.5;"></div>
+        <div class="step-dot active" style="opacity:0.5;">1</div>
+        <div class="step-line" style="background-color:var(--primary);opacity:0.5;"></div>
         <div class="step-dot active">2</div>
         <div class="step-line"></div>
         <div class="step-dot">3</div>
       </div>
 
-      <!-- Foto do pet -->
+      <!-- Foto -->
       <div class="form-card text-center">
-        <h5 class="fw-bold mb-3">
-          <i class="bi bi-camera-fill me-2 text-primary"></i>Foto do Pet
-        </h5>
-        <div class="foto-upload-area" onclick="document.getElementById('fotoPet').click()">
-          <img id="previewFoto" src="" class="pet-foto-preview d-none" alt="Foto do pet" />
+        <h5 class="fw-bold mb-3"><i class="bi bi-camera-fill me-2 text-primary"></i>Foto do Pet</h5>
+        <div class="foto-upload-area" id="uploadArea" onclick="document.getElementById('fotoPet').click()">
+          <img id="previewFoto" src="" class="pet-foto-preview d-none" alt="Foto do pet"/>
           <div id="fotoPlaceholder">
-            <i class="bi bi-camera" style="font-size: 2.5rem; color: var(--text-muted);"></i>
-            <p class="mt-2 mb-0" style="color: var(--text-muted); font-size: 0.9rem;">Toque para adicionar uma foto</p>
+            <i class="bi bi-camera" style="font-size:2.5rem; color:var(--text-muted);"></i>
+            <p class="mt-2 mb-0" style="color:var(--text-muted); font-size:0.9rem;">Toque para adicionar uma foto</p>
           </div>
         </div>
-        <input type="file" id="fotoPet" accept="image/*" class="d-none" />
-        <p class="mt-2 mb-0" style="color: var(--text-muted); font-size: 0.8rem;">Opcional — JPG, PNG ou WEBP</p>
+        <input type="file" id="fotoPet" accept="image/*" class="d-none" onchange="previewFoto()"/>
+        <p class="mt-2 mb-0" style="color:var(--text-muted); font-size:0.8rem;">Opcional — JPG, PNG ou WEBP</p>
       </div>
 
       <!-- Identificação -->
       <div class="form-card">
-        <h5 class="fw-bold mb-3">
-          <i class="bi bi-tag-fill me-2 text-primary"></i>Identificação
-        </h5>
+        <h5 class="fw-bold mb-3"><i class="bi bi-tag-fill me-2 text-primary"></i>Identificação</h5>
 
         <div class="mb-3">
-          <label class="form-label" for="nomePet">Nome do pet *</label>
-          <input type="text" class="form-control" id="nomePet" placeholder="Como seu pet se chama?" />
+          <label class="form-label">Nome do pet *</label>
+          <input type="text" class="form-control" id="nomePet" placeholder="Como seu pet se chama?"/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="especie">Espécie *</label>
+          <label class="form-label">Espécie *</label>
           <select class="form-select" id="especie">
             <option value="">Selecione a espécie</option>
-            <option value="cao">🐶 Cão</option>
-            <option value="gato">🐱 Gato</option>
-            <option value="passaro">🐦 Pássaro</option>
-            <option value="roedor">🐹 Roedor</option>
-            <option value="reptil">🦎 Réptil</option>
-            <option value="outro">🐾 Outro</option>
+            <option value="Cão">🐶 Cão</option>
+            <option value="Gato">🐱 Gato</option>
+            <option value="Pássaro">🐦 Pássaro</option>
+            <option value="Roedor">🐹 Roedor</option>
+            <option value="Réptil">🦎 Réptil</option>
+            <option value="Outro">🐾 Outro</option>
           </select>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="raca">Raça</label>
-          <input type="text" class="form-control" id="raca" placeholder="Ex: Labrador, SRD, Persa..." />
+          <label class="form-label">Raça *</label>
+          <input type="text" class="form-control" id="raca" placeholder="Ex: Labrador, SRD, Persa..."/>
         </div>
-
         <div class="mb-3">
           <label class="form-label">Sexo *</label>
           <div class="d-flex gap-3">
-            <div class="sexo-option" id="opt-macho" onclick="selecionarSexo('macho')">
+            <div class="sexo-option" data-grupo="sexo" data-valor="Macho"
+              onclick="selecionarOpcao('sexo', 'Macho', this)">
               <i class="bi bi-gender-male"></i> Macho
             </div>
-            <div class="sexo-option" id="opt-femea" onclick="selecionarSexo('femea')">
+            <div class="sexo-option" data-grupo="sexo" data-valor="Fêmea"
+              onclick="selecionarOpcao('sexo', 'Fêmea', this)">
               <i class="bi bi-gender-female"></i> Fêmea
             </div>
           </div>
-          <input type="hidden" id="sexoPet" value="" />
+          <input type="hidden" id="input_sexo" value=""/>
         </div>
-
         <div class="mb-3">
-          <label class="form-label" for="nascimentoPet">Data de nascimento / Idade aproximada *</label>
-          <input type="date" class="form-control" id="nascimentoPet" />
-          <div class="form-text">Se não souber a data exata, escolha uma data aproximada.</div>
+          <label class="form-label">Data de nascimento *</label>
+          <input type="date" class="form-control" id="nascimentoPet"/>
+          <div class="form-text">Se não souber a data exata, escolha uma aproximada.</div>
         </div>
-
         <div class="row">
           <div class="col-6 mb-3">
-            <label class="form-label" for="cor">Cor / Pelagem</label>
-            <input type="text" class="form-control" id="cor" placeholder="Ex: caramelo, branco..." />
+            <label class="form-label">Cor / Pelagem *</label>
+            <input type="text" class="form-control" id="cor" placeholder="Ex: caramelo..."/>
           </div>
           <div class="col-6 mb-3">
-            <label class="form-label" for="peso">Peso aprox. (kg)</label>
-            <input type="number" class="form-control" id="peso" placeholder="Ex: 5.5" step="0.1" min="0" />
+            <label class="form-label">Peso aprox. (kg) *</label>
+            <input type="number" class="form-control" id="peso" placeholder="Ex: 5.5" step="0.1" min="0"/>
           </div>
         </div>
       </div>
 
       <!-- Saúde -->
       <div class="form-card">
-        <h5 class="fw-bold mb-3">
-          <i class="bi bi-heart-pulse-fill me-2 text-primary"></i>Saúde
-        </h5>
+        <h5 class="fw-bold mb-3"><i class="bi bi-heart-pulse-fill me-2 text-primary"></i>Saúde</h5>
 
         <div class="mb-3">
           <label class="form-label">Castrado(a)? *</label>
           <div class="d-flex gap-3">
-            <div class="radio-option" id="opt-castrado-sim" onclick="selecionarOpcao('castrado', 'sim', this)">
+            <div class="radio-option" data-grupo="castrado" data-valor="Sim"
+              onclick="selecionarOpcao('castrado', 'Sim', this)">
               <i class="bi bi-check-circle me-1"></i>Sim
             </div>
-            <div class="radio-option" id="opt-castrado-nao" onclick="selecionarOpcao('castrado', 'nao', this)">
+            <div class="radio-option" data-grupo="castrado" data-valor="Não"
+              onclick="selecionarOpcao('castrado', 'Não', this)">
               <i class="bi bi-x-circle me-1"></i>Não
             </div>
           </div>
-          <input type="hidden" id="castrado" value="" />
+          <input type="hidden" id="input_castrado" value=""/>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Vacinas em dia? *</label>
           <div class="d-flex gap-3">
-            <div class="radio-option" id="opt-vacinas-sim" onclick="selecionarOpcao('vacinas', 'sim', this)">
+            <div class="radio-option" data-grupo="vacinas" data-valor="Sim"
+              onclick="selecionarOpcao('vacinas', 'Sim', this)">
               <i class="bi bi-check-circle me-1"></i>Sim
             </div>
-            <div class="radio-option" id="opt-vacinas-nao" onclick="selecionarOpcao('vacinas', 'nao', this)">
+            <div class="radio-option" data-grupo="vacinas" data-valor="Não"
+              onclick="selecionarOpcao('vacinas', 'Não', this)">
               <i class="bi bi-x-circle me-1"></i>Não
             </div>
           </div>
-          <input type="hidden" id="vacinas" value="" />
+          <input type="hidden" id="input_vacinas" value=""/>
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="observacoes">Observações de saúde</label>
-          <textarea class="form-control" id="observacoes" rows="3"
-            placeholder="Alergias, condições especiais, medicamentos em uso..."></textarea>
+          <label class="form-label">Observações de saúde *</label>
+          <textarea class="form-control" id="observacoesPet" rows="3"
+            placeholder="Alergias, condições especiais, medicamentos em uso... (escreva 'Nenhuma' se não houver)"></textarea>
         </div>
       </div>
 
-      <!-- Alerta de erro -->
       <div id="alertaErro" class="alert alert-danger d-none" role="alert">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         <span id="mensagemErro"></span>
       </div>
 
-      <!-- Botão salvar -->
-      <button class="btn-primary-blue" onclick="salvarPet()">
+      <button class="btn-primary-blue mb-2" onclick="salvarPet()">
         <i class="bi bi-calendar-check-fill me-2"></i>Continuar — Agendar Consulta
       </button>
+      <a href="cadastro-dono.html" class="btn-voltar d-block text-center mb-4">
+        <i class="bi bi-arrow-left me-1"></i>Voltar ao cadastro do tutor
+      </a>
 
     </div>
   </div>
 
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="bi bi-house-fill"></i><span>Início</span>
+    </a>
+    <a href="cadastro-dono.html" class="bottom-nav-item active">
+      <i class="bi bi-person-plus-fill"></i><span>Cadastro</span>
+    </a>
+    <a href="agendar.html" class="bottom-nav-item">
+      <i class="bi bi-calendar-plus-fill"></i><span>Agendar</span>
+    </a>
+    <a href="painel.html" class="bottom-nav-item">
+      <i class="bi bi-list-check"></i><span>Consultas</span>
+    </a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/app.js"></script>
 </body>
