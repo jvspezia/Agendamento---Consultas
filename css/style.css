@@ -858,3 +858,206 @@ footer {
   border-radius: 12px;
   margin-top: 10px;
 }
+
+/* ===== CADASTRO EXISTENTE ===== */
+.cadastro-existente-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 32px 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px var(--shadow);
+  margin-bottom: 16px;
+  border: 2px solid var(--primary);
+}
+
+.cadastro-existente-icon {
+  font-size: 3rem;
+}
+
+.btn-editar {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: all 0.2s;
+}
+
+.btn-editar:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.pet-avatar-grande {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 8px;
+}
+
+/* ===== BOTÃO APAGAR ===== */
+.btn-apagar {
+  background: transparent;
+  border: 1.5px solid #ef4444;
+  color: #ef4444;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-apagar:hover, .btn-apagar:active {
+  background: #ef4444;
+  color: white;
+}
+
+/* ===== BOTÃO APAGAR ===== */
+.btn-apagar {
+  background: transparent;
+  border: 1.5px solid #ef4444;
+  color: #ef4444;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+.btn-apagar:hover, .btn-apagar:active {
+  background: #ef4444;
+  color: white;
+}
+
+/* ===== CADASTRO EXISTENTE ===== */
+.cadastro-existente-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 32px 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px var(--shadow);
+  margin-bottom: 16px;
+  border: 2px solid var(--primary);
+}
+.cadastro-existente-icon { font-size: 3rem; }
+
+.btn-editar {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+.btn-editar:hover { border-color: var(--primary); color: var(--primary); }
+
+.pet-avatar-grande {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 8px;
+}
+
+/* ===== LISTA DE PETS ===== */
+.pet-card-lista {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px var(--shadow);
+  border-left: 4px solid var(--primary);
+}
+
+.pet-card-acoes {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 8px;
+}
+
+.btn-selecionar-pet {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-selecionar-pet:hover { background: var(--primary-dark); }
+
+.btn-editar-pet {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-editar-pet:hover { border-color: var(--primary); color: var(--primary); }
+
+.btn-excluir-pet {
+  background: transparent;
+  border: 1.5px solid #ef4444;
+  color: #ef4444;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-excluir-pet:hover { background: #ef4444; color: white; }
+
+.btn-hero-outline-blue {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  transition: all 0.2s;
+}
+.btn-hero-outline-blue:hover { background: var(--primary); color: white; }

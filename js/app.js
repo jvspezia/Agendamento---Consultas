@@ -1,21 +1,26 @@
-// ===== TEMA CLARO/ESCURO =====
+// ===== EMAILJS CONFIG =====
+var EMAILJS_SERVICE = 'Petconsulta';
+var EMAILJS_TEMPLATE = 'template_ynetch9';
+var EMAILJS_KEY = 'Rzyh4-PwNLHtD1fd2';
+
+// ===== TEMA =====
 function aplicarTema() {
-  const tema = localStorage.getItem('tema') || 'claro';
+  var tema = localStorage.getItem('tema') || 'claro';
   document.body.setAttribute('data-theme', tema);
-  const btn = document.getElementById('btnTema');
+  var btn = document.getElementById('btnTema');
   if (btn) btn.innerHTML = tema === 'escuro' ? '☀️' : '🌙';
 }
 
 function alternarTema() {
-  const atual = localStorage.getItem('tema') || 'claro';
-  const novo = atual === 'claro' ? 'escuro' : 'claro';
+  var atual = localStorage.getItem('tema') || 'claro';
+  var novo = atual === 'claro' ? 'escuro' : 'claro';
   localStorage.setItem('tema', novo);
   aplicarTema();
 }
 
-// ===== SPLASH SCREEN =====
+// ===== SPLASH =====
 function iniciarSplash() {
-  const splash = document.getElementById('splash');
+  var splash = document.getElementById('splash');
   if (!splash) return;
   gerarPatas('patasContainer');
   setTimeout(function () {
@@ -29,10 +34,10 @@ function iniciarSplash() {
 
 // ===== PATAS FLUTUANTES =====
 function gerarPatas(containerId) {
-  const container = document.getElementById(containerId);
+  var container = document.getElementById(containerId);
   if (!container) return;
-  for (let i = 0; i < 10; i++) {
-    const pata = document.createElement('div');
+  for (var i = 0; i < 10; i++) {
+    var pata = document.createElement('div');
     pata.classList.add('pata-float');
     pata.innerText = '🐾';
     pata.style.left = Math.random() * 100 + '%';
@@ -43,10 +48,10 @@ function gerarPatas(containerId) {
   }
 }
 
-// ===== ANIMAÇÕES DE FADE-IN =====
+// ===== FADE-IN =====
 function ativarFadeIns() {
-  const elementos = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver(function (entries) {
+  var elementos = document.querySelectorAll('.fade-in');
+  var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) entry.target.classList.add('visible');
     });
@@ -56,7 +61,7 @@ function ativarFadeIns() {
 
 // ===== FORMATAÇÕES =====
 function formatarCPF(input) {
-  let v = input.value.replace(/\D/g, '').slice(0, 11);
+  var v = input.value.replace(/\D/g, '').slice(0, 11);
   v = v.replace(/(\d{3})(\d)/, '$1.$2');
   v = v.replace(/(\d{3})(\d)/, '$1.$2');
   v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
@@ -64,40 +69,90 @@ function formatarCPF(input) {
 }
 
 function formatarTelefone(input) {
-  let v = input.value.replace(/\D/g, '').slice(0, 11);
+  var v = input.value.replace(/\D/g, '').slice(0, 11);
   v = v.replace(/(\d{2})(\d)/, '($1) $2');
   v = v.replace(/(\d{5})(\d)/, '$1-$2');
   input.value = v;
 }
 
 function formatarCEP(input) {
-  let v = input.value.replace(/\D/g, '').slice(0, 8);
+  var v = input.value.replace(/\D/g, '').slice(0, 8);
   v = v.replace(/(\d{5})(\d)/, '$1-$2');
   input.value = v;
 }
 
-// ===== BUSCA DE CEP =====
+// ===== BUSCA CEP =====
 async function buscarCEP() {
-  const cepInput = document.getElementById('cep');
-  const cep = cepInput.value.replace(/\D/g, '');
+  var cepInput = document.getElementById('cep');
+  var cep = cepInput.value.replace(/\D/g, '');
   if (cep.length !== 8) return;
   try {
-    const res = await fetch('https://viacep.com.br/ws/' + cep + '/json/');
-    const data = await res.json();
+    var res = await fetch('https://viacep.com.br/ws/' + cep + '/json/');
+    var data = await res.json();
     if (data.erro) { alert('CEP não encontrado.'); return; }
     document.getElementById('endereco').value = data.logradouro || '';
     document.getElementById('bairro').value = data.bairro || '';
     document.getElementById('cidade').value = data.localidade || '';
-  } catch (e) {
-    console.log('Erro ao buscar CEP');
+  } catch (e) { console.log('Erro CEP'); }
+}
+
+// ===== DONO — VERIFICAR =====
+function verificarCadastroDono() {
+  var dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
+  var cardExistente = document.getElementById('cardExistente');
+  var formCadastro = document.getElementById('formCadastro');
+  if (!cardExistente || !formCadastro) return;
+
+  if (dono) {
+    cardExistente.classList.remove('d-none');
+    formCadastro.classList.add('d-none');
+    var nomeEl = document.getElementById('nomeExistente');
+    var textoEl = document.getElementById('textoExistente');
+    if (nomeEl) nomeEl.textContent = dono.nome;
+    if (textoEl) textoEl.textContent = dono.email + ' • ' + dono.telefone + ' • ' + dono.cidade;
+  } else {
+    cardExistente.classList.add('d-none');
+    formCadastro.classList.remove('d-none');
   }
 }
 
-// ===== SALVAR DONO =====
+function continuarCadastroExistente() {
+  window.location.href = 'cadastro-pet.html';
+}
+
+function editarCadastro() {
+  var dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
+  document.getElementById('cardExistente').classList.add('d-none');
+  document.getElementById('formCadastro').classList.remove('d-none');
+  var btnVoltar = document.getElementById('btnVoltarDono');
+  if (btnVoltar) btnVoltar.style.display = 'block !important';
+
+  if (dono) {
+    document.getElementById('nome').value = dono.nome || '';
+    document.getElementById('cpf').value = dono.cpf || '';
+    document.getElementById('nascimento').value = dono.nascimento || '';
+    document.getElementById('telefone').value = dono.telefone || '';
+    document.getElementById('email').value = dono.email || '';
+    document.getElementById('cep').value = dono.cep || '';
+    document.getElementById('endereco').value = dono.endereco || '';
+    document.getElementById('bairro').value = dono.bairro || '';
+    document.getElementById('cidade').value = dono.cidade || '';
+    var como = document.getElementById('comoConheceu');
+    if (como) como.value = dono.comoConheceu || '';
+  }
+}
+
+function apagarDono() {
+  if (!confirm('Tem certeza que deseja excluir seu cadastro? Todos os dados do tutor serão removidos.')) return;
+  localStorage.removeItem('dadosDono');
+  verificarCadastroDono();
+}
+
+// ===== DONO — SALVAR =====
 function salvarDono() {
-  const campos = ['nome', 'cpf', 'nascimento', 'telefone', 'email', 'cep', 'endereco', 'bairro', 'cidade'];
-  for (let campo of campos) {
-    const el = document.getElementById(campo);
+  var campos = ['nome', 'cpf', 'nascimento', 'telefone', 'email', 'cep', 'endereco', 'bairro', 'cidade'];
+  for (var i = 0; i < campos.length; i++) {
+    var el = document.getElementById(campos[i]);
     if (!el || !el.value.trim()) {
       alert('Por favor, preencha todos os campos obrigatórios.');
       if (el) el.focus();
@@ -105,7 +160,7 @@ function salvarDono() {
     }
   }
 
-  const dono = {
+  var dono = {
     nome: document.getElementById('nome').value.trim(),
     cpf: document.getElementById('cpf').value.trim(),
     nascimento: document.getElementById('nascimento').value,
@@ -122,42 +177,171 @@ function salvarDono() {
   window.location.href = 'cadastro-pet.html';
 }
 
-// ===== SELEÇÃO DE OPÇÕES =====
+// ===== PETS — LISTA =====
+function verificarCadastroPet() {
+  var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+  var listaPetsSection = document.getElementById('listaPetsSection');
+  var formPet = document.getElementById('formPet');
+  if (!listaPetsSection || !formPet) return;
+
+  if (pets.length > 0) {
+    listaPetsSection.classList.remove('d-none');
+    formPet.classList.add('d-none');
+    renderizarListaPets(pets);
+  } else {
+    listaPetsSection.classList.add('d-none');
+    formPet.classList.remove('d-none');
+  }
+}
+
+function renderizarListaPets(pets) {
+  var lista = document.getElementById('listaPets');
+  if (!lista) return;
+
+  lista.innerHTML = pets.map(function (pet) {
+    var foto = pet.foto
+      ? '<img src="' + pet.foto + '" class="pet-foto-mini" alt="Foto"/>'
+      : '<div class="pet-avatar-placeholder">🐾</div>';
+
+    return '<div class="pet-card-lista">' +
+      '<div class="d-flex align-items-center gap-3">' +
+        foto +
+        '<div style="flex:1">' +
+          '<h6 class="fw-bold mb-0">' + pet.nome + '</h6>' +
+          '<small style="color:var(--text-muted)">' + pet.especie + ' • ' + pet.raca + ' • ' + pet.peso + 'kg</small>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pet-card-acoes mt-3">' +
+        '<button class="btn-selecionar-pet" onclick="selecionarPet(\'' + pet.id + '\')">' +
+          '<i class="bi bi-check-circle me-1"></i>Selecionar' +
+        '</button>' +
+        '<button class="btn-editar-pet" onclick="editarPetId(\'' + pet.id + '\')">' +
+          '<i class="bi bi-pencil me-1"></i>Editar' +
+        '</button>' +
+        '<button class="btn-excluir-pet" onclick="excluirPet(\'' + pet.id + '\')">' +
+          '<i class="bi bi-trash me-1"></i>Excluir' +
+        '</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function selecionarPet(id) {
+  var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+  var pet = pets.find(function (p) { return p.id === id; });
+  if (!pet) return;
+  localStorage.setItem('dadosPet', JSON.stringify(pet));
+  if (pet.foto) localStorage.setItem('fotoPet', pet.foto);
+  window.location.href = 'agendar.html';
+}
+
+function excluirPet(id) {
+  if (!confirm('Tem certeza que deseja excluir este pet?')) return;
+  var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+  pets = pets.filter(function (p) { return p.id !== id; });
+  localStorage.setItem('listaPets', JSON.stringify(pets));
+
+  // Limpa pet selecionado se for o excluído
+  var petAtual = JSON.parse(localStorage.getItem('dadosPet') || 'null');
+  if (petAtual && petAtual.id === id) {
+    localStorage.removeItem('dadosPet');
+    localStorage.removeItem('fotoPet');
+  }
+
+  verificarCadastroPet();
+}
+
+function editarPetId(id) {
+  var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+  var pet = pets.find(function (p) { return p.id === id; });
+  if (!pet) return;
+
+  mostrarFormPet();
+  document.getElementById('petIdEditando').value = id;
+  var titulo = document.getElementById('tituloPet');
+  if (titulo) titulo.innerHTML = '<i class="bi bi-pencil me-2 text-primary"></i>Editar Pet';
+
+  document.getElementById('nomePet').value = pet.nome || '';
+  document.getElementById('especie').value = pet.especie || '';
+  document.getElementById('raca').value = pet.raca || '';
+  document.getElementById('nascimentoPet').value = pet.nascimento || '';
+  document.getElementById('cor').value = pet.cor || '';
+  document.getElementById('peso').value = pet.peso || '';
+  document.getElementById('observacoesPet').value = pet.observacoes || '';
+
+  if (pet.sexo) {
+    var btnSexo = document.querySelector('[data-grupo="sexo"][data-valor="' + pet.sexo + '"]');
+    if (btnSexo) { btnSexo.classList.add('selecionado'); document.getElementById('input_sexo').value = pet.sexo; }
+  }
+  if (pet.castrado) {
+    var btnCast = document.querySelector('[data-grupo="castrado"][data-valor="' + pet.castrado + '"]');
+    if (btnCast) { btnCast.classList.add('selecionado'); document.getElementById('input_castrado').value = pet.castrado; }
+  }
+  if (pet.vacinas) {
+    var btnVac = document.querySelector('[data-grupo="vacinas"][data-valor="' + pet.vacinas + '"]');
+    if (btnVac) { btnVac.classList.add('selecionado'); document.getElementById('input_vacinas').value = pet.vacinas; }
+  }
+  if (pet.foto) {
+    var preview = document.getElementById('previewFoto');
+    var placeholder = document.getElementById('fotoPlaceholder');
+    if (preview) { preview.src = pet.foto; preview.classList.remove('d-none'); }
+    if (placeholder) placeholder.classList.add('d-none');
+  }
+}
+
+function mostrarFormPet() {
+  document.getElementById('listaPetsSection').classList.add('d-none');
+  document.getElementById('formPet').classList.remove('d-none');
+  document.getElementById('petIdEditando').value = '';
+  var titulo = document.getElementById('tituloPet');
+  if (titulo) titulo.innerHTML = '<i class="bi bi-emoji-smile me-2 text-primary"></i>Cadastro do Pet';
+}
+
+function voltarListaPets() {
+  var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+  if (pets.length > 0) {
+    document.getElementById('formPet').classList.add('d-none');
+    document.getElementById('listaPetsSection').classList.remove('d-none');
+    renderizarListaPets(pets);
+  } else {
+    window.location.href = 'cadastro-dono.html';
+  }
+}
+
+// ===== OPÇÕES (sexo, castrado, vacinas) =====
 function selecionarOpcao(grupo, valor, el) {
   document.querySelectorAll('[data-grupo="' + grupo + '"]').forEach(function (btn) {
     btn.classList.remove('selecionado');
   });
   if (el) el.classList.add('selecionado');
-  const input = document.getElementById('input_' + grupo);
+  var input = document.getElementById('input_' + grupo);
   if (input) input.value = valor;
 }
 
-// ===== PREVIEW DE FOTO =====
+// ===== FOTO =====
 function previewFoto() {
-  const input = document.getElementById('fotoPet');
-  const preview = document.getElementById('previewFoto');
-  const placeholder = document.getElementById('fotoPlaceholder');
-  const area = document.getElementById('uploadArea');
+  var input = document.getElementById('fotoPet');
+  var preview = document.getElementById('previewFoto');
+  var placeholder = document.getElementById('fotoPlaceholder');
+  var area = document.getElementById('uploadArea');
   if (!input.files || !input.files[0]) return;
 
-  const reader = new FileReader();
+  var reader = new FileReader();
   reader.onload = function (e) {
-    localStorage.setItem('fotoPet', e.target.result);
-    if (preview) {
-      preview.src = e.target.result;
-      preview.classList.remove('d-none');
-    }
+    if (preview) { preview.src = e.target.result; preview.classList.remove('d-none'); }
     if (placeholder) placeholder.classList.add('d-none');
     if (area) area.style.borderColor = 'var(--primary)';
+    // Salva foto temporariamente
+    localStorage.setItem('fotoTemp', e.target.result);
   };
   reader.readAsDataURL(input.files[0]);
 }
 
 // ===== SALVAR PET =====
 function salvarPet() {
-  const obrigatorios = ['nomePet', 'especie', 'raca', 'nascimentoPet', 'cor', 'peso', 'observacoesPet'];
-  for (let campo of obrigatorios) {
-    const el = document.getElementById(campo);
+  var obrigatorios = ['nomePet', 'especie', 'raca', 'nascimentoPet', 'cor', 'peso', 'observacoesPet'];
+  for (var i = 0; i < obrigatorios.length; i++) {
+    var el = document.getElementById(obrigatorios[i]);
     if (!el || !el.value.trim()) {
       alert('Por favor, preencha todos os campos obrigatórios.');
       if (el) el.focus();
@@ -165,15 +349,19 @@ function salvarPet() {
     }
   }
 
-  const sexo = document.getElementById('input_sexo') ? document.getElementById('input_sexo').value : '';
-  const castrado = document.getElementById('input_castrado') ? document.getElementById('input_castrado').value : '';
-  const vacinas = document.getElementById('input_vacinas') ? document.getElementById('input_vacinas').value : '';
+  var sexo = document.getElementById('input_sexo') ? document.getElementById('input_sexo').value : '';
+  var castrado = document.getElementById('input_castrado') ? document.getElementById('input_castrado').value : '';
+  var vacinas = document.getElementById('input_vacinas') ? document.getElementById('input_vacinas').value : '';
 
   if (!sexo) { alert('Por favor, selecione o sexo do pet.'); return; }
   if (!castrado) { alert('Por favor, informe se o pet é castrado.'); return; }
   if (!vacinas) { alert('Por favor, informe se as vacinas estão em dia.'); return; }
 
-  const pet = {
+  var idEditando = document.getElementById('petIdEditando') ? document.getElementById('petIdEditando').value : '';
+  var fotoTemp = localStorage.getItem('fotoTemp') || '';
+
+  var pet = {
+    id: idEditando || 'pet_' + Date.now(),
     nome: document.getElementById('nomePet').value.trim(),
     especie: document.getElementById('especie').value,
     raca: document.getElementById('raca').value.trim(),
@@ -183,41 +371,60 @@ function salvarPet() {
     peso: document.getElementById('peso').value.trim(),
     castrado: castrado,
     vacinas: vacinas,
-    observacoes: document.getElementById('observacoesPet').value.trim()
+    observacoes: document.getElementById('observacoesPet').value.trim(),
+    foto: fotoTemp || (idEditando ? obterFotoPet(idEditando) : '')
   };
 
+  // Salva na lista de pets
+  var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+  if (idEditando) {
+    pets = pets.map(function (p) { return p.id === idEditando ? pet : p; });
+  } else {
+    pets.push(pet);
+  }
+  localStorage.setItem('listaPets', JSON.stringify(pets));
+  localStorage.removeItem('fotoTemp');
+
+  // Define como pet selecionado
   localStorage.setItem('dadosPet', JSON.stringify(pet));
+  if (pet.foto) localStorage.setItem('fotoPet', pet.foto);
+
   window.location.href = 'agendar.html';
 }
 
-// ===== CARREGAR RESUMO NO AGENDAR =====
+function obterFotoPet(id) {
+  var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+  var pet = pets.find(function (p) { return p.id === id; });
+  return pet ? pet.foto : '';
+}
+
+// ===== RESUMO NO AGENDAR =====
 function carregarResumo() {
-  const dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
-  const pet = JSON.parse(localStorage.getItem('dadosPet') || 'null');
-  const resumoDono = document.getElementById('resumoDono');
-  const resumoPet = document.getElementById('resumoPet');
+  var dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
+  var pet = JSON.parse(localStorage.getItem('dadosPet') || 'null');
+  var resumoDono = document.getElementById('resumoDono');
+  var resumoPet = document.getElementById('resumoPet');
   if (resumoDono) resumoDono.textContent = dono ? dono.nome : 'Tutor não cadastrado';
   if (resumoPet) resumoPet.textContent = pet ? pet.nome + ' (' + pet.especie + ')' : 'Pet não cadastrado';
 }
 
 // ===== HORÁRIOS =====
-let horarioSelecionado = '';
-const todosHorarios = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
+var horarioSelecionado = '';
+var todosHorarios = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
 
 function renderizarHorarios(dataSelecionada) {
-  const grid = document.getElementById('horariosGrid');
+  var grid = document.getElementById('horariosGrid');
   if (!grid) return;
-  const consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
-  const ocupados = consultas.filter(function (c) { return c.data === dataSelecionada; }).map(function (c) { return c.horario; });
+  var consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
+  var ocupados = consultas.filter(function (c) { return c.data === dataSelecionada; }).map(function (c) { return c.horario; });
   horarioSelecionado = '';
   grid.innerHTML = '';
   todosHorarios.forEach(function (hora) {
-    const div = document.createElement('div');
+    var div = document.createElement('div');
     div.classList.add('horario-card');
     div.textContent = hora;
     if (ocupados.includes(hora)) {
       div.classList.add('ocupado');
-      div.title = 'Horário ocupado';
     } else {
       div.classList.add('disponivel');
       div.onclick = function () { selecionarHorario(div, hora); };
@@ -232,18 +439,18 @@ function selecionarHorario(el, hora) {
   horarioSelecionado = hora;
 }
 
-// ===== SELEÇÃO DE MOTIVO =====
+// ===== MOTIVO =====
 function selecionarMotivo(el, texto) {
   document.querySelectorAll('.motivo-chip').forEach(function (c) { c.classList.remove('selecionado'); });
   el.classList.add('selecionado');
-  const motivoEl = document.getElementById('motivo');
+  var motivoEl = document.getElementById('motivo');
   if (motivoEl) motivoEl.value = texto;
 }
 
 // ===== ENVIAR EMAIL =====
 async function enviarEmail(consulta, dono, pet) {
   try {
-    const templateParams = {
+    await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
       nome_dono: dono.nome,
       email_dono: dono.email,
       nome_pet: pet.nome,
@@ -251,24 +458,19 @@ async function enviarEmail(consulta, dono, pet) {
       data_consulta: formatarData(consulta.data),
       horario_consulta: consulta.horario,
       motivo_consulta: consulta.motivo
-    };
-
-    await emailjs.send('Petconsulta', 'template_ynetch9', templateParams);
-    console.log('Email enviado com sucesso!');
-  } catch (error) {
-    console.log('Erro ao enviar email:', error);
-  }
+    });
+  } catch (e) { console.log('Erro email:', e); }
 }
 
 // ===== CONFIRMAR AGENDAMENTO =====
 async function confirmarAgendamento() {
-  const dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
-  const pet = JSON.parse(localStorage.getItem('dadosPet') || 'null');
-  const dataConsulta = document.getElementById('dataConsulta') ? document.getElementById('dataConsulta').value : '';
-  const motivo = document.getElementById('motivo') ? document.getElementById('motivo').value.trim() : '';
+  var dono = JSON.parse(localStorage.getItem('dadosDono') || 'null');
+  var pet = JSON.parse(localStorage.getItem('dadosPet') || 'null');
+  var dataConsulta = document.getElementById('dataConsulta') ? document.getElementById('dataConsulta').value : '';
+  var motivo = document.getElementById('motivo') ? document.getElementById('motivo').value.trim() : '';
 
-  const erro = document.getElementById('alertaErro');
-  const msg = document.getElementById('mensagemErro');
+  var erro = document.getElementById('alertaErro');
+  var msg = document.getElementById('mensagemErro');
 
   function mostrarErro(texto) {
     if (erro && msg) { msg.textContent = texto; erro.classList.remove('d-none'); }
@@ -283,11 +485,10 @@ async function confirmarAgendamento() {
 
   if (erro) erro.classList.add('d-none');
 
-  // Mostra loading no botão
-  const btn = document.querySelector('[onclick="confirmarAgendamento()"]');
+  var btn = document.querySelector('[onclick="confirmarAgendamento()"]');
   if (btn) { btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Enviando...'; btn.disabled = true; }
 
-  const consulta = {
+  var consulta = {
     id: Date.now(),
     nomeDono: dono.nome,
     telefoneDono: dono.telefone,
@@ -295,33 +496,32 @@ async function confirmarAgendamento() {
     nomePet: pet.nome,
     especiePet: pet.especie,
     racaPet: pet.raca,
+    petId: pet.id || '',
     data: dataConsulta,
     horario: horarioSelecionado,
     motivo: motivo,
     status: 'Confirmado'
   };
 
-  const consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
+  var consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
   consultas.push(consulta);
   localStorage.setItem('consultas', JSON.stringify(consultas));
   localStorage.setItem('ultimaConsulta', JSON.stringify(consulta));
 
-  // Envia o email
   await enviarEmail(consulta, dono, pet);
-
   window.location.href = 'confirmacao.html';
 }
 
-// ===== CARREGAR CONFIRMAÇÃO =====
+// ===== CONFIRMAÇÃO =====
 function carregarConfirmacao() {
-  const c = JSON.parse(localStorage.getItem('ultimaConsulta') || 'null');
+  var c = JSON.parse(localStorage.getItem('ultimaConsulta') || 'null');
   if (!c) { window.location.href = 'index.html'; return; }
 
-  const foto = localStorage.getItem('fotoPet');
-  const fotoEl = document.getElementById('conf-foto');
+  var foto = localStorage.getItem('fotoPet');
+  var fotoEl = document.getElementById('conf-foto');
   if (fotoEl && foto) { fotoEl.src = foto; fotoEl.classList.remove('d-none'); }
 
-  const campos = {
+  var campos = {
     'conf-nomeDono': c.nomeDono,
     'conf-nomePet': c.nomePet,
     'conf-especie': c.especiePet,
@@ -332,19 +532,18 @@ function carregarConfirmacao() {
   };
 
   Object.keys(campos).forEach(function (id) {
-    const el = document.getElementById(id);
+    var el = document.getElementById(id);
     if (el) el.textContent = campos[id];
   });
 }
 
-// ===== CARREGAR PAINEL =====
+// ===== PAINEL =====
 function carregarConsultas() {
-  const lista = document.getElementById('listaConsultas');
-  const vazia = document.getElementById('listaVazia');
+  var lista = document.getElementById('listaConsultas');
+  var vazia = document.getElementById('listaVazia');
   if (!lista) return;
 
-  const consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
-  const foto = localStorage.getItem('fotoPet');
+  var consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
 
   if (consultas.length === 0) {
     if (vazia) vazia.classList.remove('d-none');
@@ -354,7 +553,16 @@ function carregarConsultas() {
   if (vazia) vazia.classList.add('d-none');
 
   lista.innerHTML = consultas.slice().reverse().map(function (c) {
-    const fotoHTML = foto
+    // Tenta pegar foto do pet específico
+    var foto = '';
+    if (c.petId) {
+      var pets = JSON.parse(localStorage.getItem('listaPets') || '[]');
+      var petDaConsulta = pets.find(function (p) { return p.id === c.petId; });
+      if (petDaConsulta && petDaConsulta.foto) foto = petDaConsulta.foto;
+    }
+    if (!foto) foto = localStorage.getItem('fotoPet') || '';
+
+    var fotoHTML = foto
       ? '<img src="' + foto + '" class="pet-foto-mini" alt="Foto do pet"/>'
       : '<div class="pet-avatar-placeholder">🐾</div>';
 
@@ -382,7 +590,7 @@ function carregarConsultas() {
 
 function cancelarConsulta(id) {
   if (!confirm('Tem certeza que deseja cancelar esta consulta?')) return;
-  let consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
+  var consultas = JSON.parse(localStorage.getItem('consultas') || '[]');
   consultas = consultas.filter(function (c) { return c.id !== id; });
   localStorage.setItem('consultas', JSON.stringify(consultas));
   carregarConsultas();
@@ -391,25 +599,25 @@ function cancelarConsulta(id) {
 // ===== UTILITÁRIOS =====
 function formatarData(data) {
   if (!data) return '';
-  const partes = data.split('-');
+  var partes = data.split('-');
   return partes[2] + '/' + partes[1] + '/' + partes[0];
 }
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', function () {
-  // Inicializa EmailJS
-  emailjs.init('Rzyh4-PwNLHtD1fd2');
-
+  emailjs.init(EMAILJS_KEY);
   aplicarTema();
   iniciarSplash();
   gerarPatas('patasHero');
   gerarPatas('patasCta');
   ativarFadeIns();
+  verificarCadastroDono();
+  verificarCadastroPet();
   carregarResumo();
   carregarConsultas();
   carregarConfirmacao();
 
-  const dataInput = document.getElementById('dataConsulta');
+  var dataInput = document.getElementById('dataConsulta');
   if (dataInput) {
     dataInput.addEventListener('change', function () { renderizarHorarios(this.value); });
     dataInput.min = new Date().toISOString().split('T')[0];
